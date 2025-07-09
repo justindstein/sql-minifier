@@ -1,7 +1,3 @@
-Sure! Below is a complete `README.md` for your SQL minifier tool, tailored for a GitHub project.
-
----
-
 # 🐚 SQL Minifier — Bash/Perl One-Liner for Compact SQL
 
 A blazing-fast, dependency-free SQL minifier for the command line.
@@ -114,8 +110,3 @@ This tool fills that gap for developers and ops engineers who just want clean, r
 ## 🔓 License
 
 MIT — free to use, copy, and share.
-
----
-
-Let me know if you'd like to include a benchmark section or package it for Homebrew or npm for discoverability.
-
