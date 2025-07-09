@@ -54,44 +54,10 @@ echo "SELECT * FROM users -- fetch all" | ./minify-sql.sh
 
 ---
 
-## 📦 Example
-
-Input (`query.sql`):
-
-```sql
-SELECT *
-FROM users -- fetch user table
-WHERE name = 'John -- Doe'
-AND email LIKE "%@example.com";
-```
-
-Command:
-
-```bash
-./minify-sql.sh query.sql
-```
-
-Output:
-
-```
-SELECT * FROM users WHERE name = 'John -- Doe' AND email LIKE "%@example.com";
-```
-
----
-
 ## 🧪 Requirements
 
 * `bash`
 * `perl` (standard on macOS, most Linux distributions, WSL, and Git Bash for Windows)
-
----
-
-## 🤖 Authorship & AI Credit
-
-This project was written **100% using AI**, specifically **[ChatGPT by OpenAI](https://openai.com/chatgpt)**.
-It was designed, debugged, and documented with zero human coding beyond execution and copy/paste.
-
-If you’re impressed, thank [ChatGPT](https://chat.openai.com)!
 
 ---
 
@@ -104,6 +70,15 @@ There are currently **no open source** CLI tools dedicated to SQL minification.
 * **Regex hacks** fail on real-world SQL with comments inside strings
 
 This tool fills that gap for developers and ops engineers who just want clean, reliable SQL output.
+
+---
+
+## 🤖 Authorship & AI Credit
+
+This project was written **100% using AI**, specifically **[ChatGPT by OpenAI](https://openai.com/chatgpt)**.
+It was designed, debugged, and documented with zero human coding beyond execution and copy/paste.
+
+If you’re impressed, thank [ChatGPT](https://chat.openai.com)!
 
 ---
 
