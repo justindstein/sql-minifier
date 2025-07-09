@@ -1,0 +1,41 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+# Usage: ./minify-sql.pl input.sql > output.sql
+# Or: cat input.sql | ./minify-sql.pl
+
+my ($in_single, $in_double, $in_backtick) = (0, 0, 0);
+
+while (my $line = <>) {
+    chomp $line;
+    my $out = '';
+    my @chars = split //, $line;
+    for (my $i = 0; $i < @chars; $i++) {
+        my $c = $chars[$i];
+        my $next = $chars[$i+1] // '';
+        my $prev = $chars[$i-1] // '';
+
+        if (!$in_double && !$in_backtick && $c eq "'") {
+            $in_single = !$in_single if $prev ne "\\";
+        }
+        elsif (!$in_single && !$in_backtick && $c eq '"') {
+            $in_double = !$in_double if $prev ne "\\";
+        }
+        elsif (!$in_single && !$in_double && $c eq '`') {
+            $in_backtick = !$in_backtick if $prev ne "\\";
+        }
+
+        if (!$in_single && !$in_double && !$in_backtick && $c eq '-' && $next eq '-') {
+            last; # skip rest of line
+        }
+
+        $out .= $c;
+    }
+
+    $out =~ s/\s+/ /g;
+    $out =~ s/^\s+|\s+$//g;
+    print "$out ";
+}
+print "\n";
+
