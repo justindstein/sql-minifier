@@ -1,7 +1,3 @@
-Sure! Below is a complete `README.md` for your SQL minifier tool, tailored for a GitHub project.
-
----
-
 # 🐚 SQL Minifier — Bash/Perl One-Liner for Compact SQL
 
 A blazing-fast, dependency-free SQL minifier for the command line.
@@ -58,44 +54,10 @@ echo "SELECT * FROM users -- fetch all" | ./minify-sql.sh
 
 ---
 
-## 📦 Example
-
-Input (`query.sql`):
-
-```sql
-SELECT *
-FROM users -- fetch user table
-WHERE name = 'John -- Doe'
-AND email LIKE "%@example.com";
-```
-
-Command:
-
-```bash
-./minify-sql.sh query.sql
-```
-
-Output:
-
-```
-SELECT * FROM users WHERE name = 'John -- Doe' AND email LIKE "%@example.com";
-```
-
----
-
 ## 🧪 Requirements
 
 * `bash`
 * `perl` (standard on macOS, most Linux distributions, WSL, and Git Bash for Windows)
-
----
-
-## 🤖 Authorship & AI Credit
-
-This project was written **100% using AI**, specifically **[ChatGPT by OpenAI](https://openai.com/chatgpt)**.
-It was designed, debugged, and documented with zero human coding beyond execution and copy/paste.
-
-If you’re impressed, thank [ChatGPT](https://chat.openai.com)!
 
 ---
 
@@ -111,11 +73,15 @@ This tool fills that gap for developers and ops engineers who just want clean, r
 
 ---
 
-## 🔓 License
+## 🤖 Authorship & AI Credit
 
-MIT — free to use, copy, and share.
+This project was written **100% using AI**, specifically **[ChatGPT by OpenAI](https://openai.com/chatgpt)**.
+It was designed, debugged, and documented with zero human coding beyond execution and copy/paste.
+
+If you’re impressed, thank [ChatGPT](https://chat.openai.com)!
 
 ---
 
-Let me know if you'd like to include a benchmark section or package it for Homebrew or npm for discoverability.
+## 🔓 License
 
+MIT — free to use, copy, and share.
