@@ -2,40 +2,79 @@
 use strict;
 use warnings;
 
-# Usage: ./minify-sql.pl input.sql > output.sql
-# Or: cat input.sql | ./minify-sql.pl
+# Usage:
+#   ./minify-sql.pl input.sql > output.sql
+#   cat input.sql | ./minify-sql.pl
 
 my ($in_single, $in_double, $in_backtick) = (0, 0, 0);
+my $sql = '';
 
 while (my $line = <>) {
     chomp $line;
-    my $out = '';
     my @chars = split //, $line;
+    my $clean = '';
     for (my $i = 0; $i < @chars; $i++) {
-        my $c = $chars[$i];
-        my $next = $chars[$i+1] // '';
-        my $prev = $chars[$i-1] // '';
+        my $c    = $chars[$i];
+        my $next = $chars[$i + 1] // '';
+        my $prev = $chars[$i - 1] // '';
 
+        # Toggle quote states
         if (!$in_double && !$in_backtick && $c eq "'") {
-            $in_single = !$in_single if $prev ne "\\";
-        }
-        elsif (!$in_single && !$in_backtick && $c eq '"') {
-            $in_double = !$in_double if $prev ne "\\";
-        }
-        elsif (!$in_single && !$in_double && $c eq '`') {
-            $in_backtick = !$in_backtick if $prev ne "\\";
+            $in_single = !$in_single if $prev ne '\\';
+        } elsif (!$in_single && !$in_backtick && $c eq '"') {
+            $in_double = !$in_double if $prev ne '\\';
+        } elsif (!$in_single && !$in_double && $c eq '`') {
+            $in_backtick = !$in_backtick if $prev ne '\\';
         }
 
+        # Remove -- comment outside quotes
         if (!$in_single && !$in_double && !$in_backtick && $c eq '-' && $next eq '-') {
-            last; # skip rest of line
+            last;  # skip rest of line
         }
 
-        $out .= $c;
+        $clean .= $c;
     }
 
-    $out =~ s/\s+/ /g;
-    $out =~ s/^\s+|\s+$//g;
-    print "$out ";
+    $sql .= $clean . ' ';
 }
-print "\n";
 
+# Reduce outside of quoted content
+my $out = '';
+my $buffer = '';
+($in_single, $in_double, $in_backtick) = (0, 0, 0);
+
+my @chars = split //, $sql;
+for (my $i = 0; $i < @chars; $i++) {
+    my $c    = $chars[$i];
+    my $prev = $chars[$i - 1] // '';
+
+    # Toggle quote states
+    if (!$in_double && !$in_backtick && $c eq "'") {
+        $in_single = !$in_single if $prev ne '\\';
+    } elsif (!$in_single && !$in_backtick && $c eq '"') {
+        $in_double = !$in_double if $prev ne '\\';
+    } elsif (!$in_single && !$in_double && $c eq '`') {
+        $in_backtick = !$in_backtick if $prev ne '\\';
+    }
+
+    if ($in_single || $in_double || $in_backtick) {
+        $out .= $buffer . $c;
+        $buffer = '';
+    } else {
+        if ($c =~ /\s/) {
+            $buffer = ' ' unless $buffer eq ' ';
+        } else {
+            $out .= $buffer;
+            $buffer = '';
+            $out .= $c;
+        }
+    }
+}
+$out .= $buffer;
+
+# Normalize spacing around = and ,
+$out =~ s/ ?= ?/=/g;
+$out =~ s/ ?, ?/,/g;
+$out =~ s/^\s+|\s+$//g;
+
+print "$out\n";
