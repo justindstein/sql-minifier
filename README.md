@@ -1,6 +1,6 @@
-# 🐚 SQL Minifier — Bash/Perl One-Liner for Compact SQL
+# 🐚 SQL Minify — Bash/Perl One-Liner for Compact SQL
 
-A blazing-fast, dependency-free SQL minifier for the command line.
+A blazing-fast, dependency-free SQL minify for the command line.
 Removes comments and collapses whitespace so your SQL is ready for logs, APIs, or inline embedding.
 
 ---
